@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="note" version="1.0" demote-non-dropping-particle="sort-only" default-locale="en-US">
+  <!-- This style was edited with the Visual CSL Editor (https://editor.citationstyles.org/visualEditor/) -->
   <info>
     <title>Bluebook Law Review</title>
-    <id>http://www.zotero.org/styles/bluebook-law-review</id>
+    <id>tktk</id>
     <link href="http://www.zotero.org/styles/bluebook-law-review" rel="self"/>
     <link href="https://www.legalbluebook.com/" rel="documentation"/>
     <author>
@@ -13,13 +14,17 @@
       <name>Nancy Sims</name>
       <email>nsims@umich.edu</email>
     </author>
+    <author>
+      <name>James Tierney</name>
+      <email>jtierney1@kentlaw.iit.edu</email>
+    </author>
     <contributor>
       <name>Patrick O'Brien</name>
     </contributor>
     <category citation-format="note"/>
     <category field="law"/>
     <summary>The Bluebook legal citation style for law reviews.</summary>
-    <updated>2023-06-28T09:05:37+00:00</updated>
+    <updated>2024-10-24T20:47:30+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale>
@@ -64,6 +69,7 @@
   <macro name="name-short-macro">
     <names variable="author">
       <name form="short" and="text" delimiter=", "/>
+      <label form="verb-short" prefix=", "/>
       <substitute>
         <text variable="title" form="short"/>
       </substitute>
@@ -220,9 +226,18 @@
                   <text variable="edition"/>
                   <label variable="edition" form="short"/>
                 </group>
-                <date variable="issued">
-                  <date-part name="year"/>
-                </date>
+                <choose>
+                  <if match="any" variable="authority">
+                    <group>
+                      <text variable="authority"/>
+                    </group>
+                  </if>
+                  <else>
+                    <date form="text" date-parts="year-month-day" variable="issued">
+                      <date-part name="year"/>
+                    </date>
+                  </else>
+                </choose>
               </group>
             </group>
           </else>
@@ -256,7 +271,7 @@
     </choose>
   </macro>
   <citation et-al-min="4" et-al-use-first="1">
-    <layout suffix="." delimiter="; ">
+    <layout suffix="" delimiter="; ">
       <choose>
         <if position="ibid-with-locator">
           <group delimiter=" ">
@@ -278,10 +293,31 @@
               <text macro="author-short"/>
             </group>
             <group delimiter=" ">
-              <text value="supra" font-style="italic"/>
-              <text value="note"/>
-              <text variable="first-reference-note-number"/>
-              <text macro="at_page"/>
+              <choose>
+                <if type="legal_case" match="any">
+                  <group>
+                    <text variable="volume" suffix=" "/>
+                    <text variable="container-title"/>
+                    <group>
+                      <text value="at" prefix=" " suffix=" "/>
+                      <choose>
+                        <if match="any" variable="locator">
+                          <text variable="locator"/>
+                        </if>
+                        <else>
+                          <text variable="page" form="short"/>
+                        </else>
+                      </choose>
+                    </group>
+                  </group>
+                </if>
+                <else>
+                  <text value="supra" font-style="italic"/>
+                  <text value="note"/>
+                  <text variable="first-reference-note-number"/>
+                  <text macro="at_page"/>
+                </else>
+              </choose>
             </group>
           </group>
         </else-if>
